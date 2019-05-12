@@ -124,6 +124,9 @@ int main()
         else
             cout << breakpoint[i-1] << "-" << breakpoint[i] << "\t" << (breakpoint[i-1] + breakpoint[i]) / 2 << "\t\t" << frequency[i] << endl;
     }
+    
+    cout << "按回车键结束";
+    getchar();
 }
 
 double Avg(double num[], int n, int real_number)
