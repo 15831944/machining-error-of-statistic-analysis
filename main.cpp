@@ -102,11 +102,11 @@ int main()
     for (int i = 0; i < k; i++)
     {
         if (i == 0)
-            cout << min_num << "-" << breakpoint[i] << ": " << frequency[i] << endl;
+            cout << min_num << "-" << breakpoint[i] << "\t" << (breakpoint[i] + min_num) / 2 << "\t\t" << frequency[i] << endl;
         else if (i == k-1)
-            cout << breakpoint[i-1] << "-" << max_num << ": " << frequency[i] << endl;
+            cout << breakpoint[i-1] << "-" << max_num << "\t" << (breakpoint[i-1] + max_num) / 2 << "\t\t" << frequency[i] << endl;
         else
-            cout << breakpoint[i-1] << "-" << breakpoint[i] << ": " << frequency[i] << endl;
+            cout << breakpoint[i-1] << "-" << breakpoint[i] << "\t" << (breakpoint[i-1] + breakpoint[i]) / 2 << "\t\t" << frequency[i] << endl;
     }
 }
 
