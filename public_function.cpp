@@ -6,7 +6,7 @@ double Avg(double num[], int n, int real_number)
     double r = 0;
     for (int i = 0; i < n; ++i)
     {
-        if(num[i] == 65535)
+        if(num[i] == -255)
             continue;
         r += num[i];
     }
@@ -18,7 +18,7 @@ double Standard_deviation(double num[], int n, double avg, int real_number)
     double r = 0;
     for (int i = 0; i < n; ++i)
     {
-        if(num[i] == 65535)
+        if(num[i] == -255)
             continue;
         r += (num[i] - avg) * (num[i] - avg);
     }
@@ -30,7 +30,7 @@ double Max_num(double num[], int n)
     double max = num[0];
     for (int i = 1; i < n; i++)
     {
-        if(num[i] == 65535)
+        if(num[i] == -255)
             continue;
         if (max < num[i])
             max = num[i];
@@ -43,7 +43,7 @@ double Min_num(double num[], int n)
     double min = num[0];
     for (int i = 1; i < n; i++)
     {
-        if(num[i] == 65535)
+        if(num[i] == -255)
             continue;
         if (min > num[i])
             min = num[i];
