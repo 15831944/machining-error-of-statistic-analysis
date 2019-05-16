@@ -6,17 +6,17 @@ using namespace std;
 
 void analysis_point_map()
 {
-    cout << "¹²¼¸×é: ";
+    cout << "å…±å‡ ç»„: ";
     int q = 0;
     cin >> q;
 
-    cout << "Ã¿×éÓÐ¶àÉÙÊý¾Ý: ";
+    cout << "æ¯ç»„æœ‰å¤šå°‘æ•°æ®: ";
     int n = 0;
     cin >> n;
 
     double size[q][n];
 
-    cout << endl << "ÊäÈëÊý¾Ý(Ò»´ÎÐÔÈ«²¿ÊäÈë):\n";
+    cout << endl << "è¾“å…¥æ•°æ®(ä¸€æ¬¡æ€§å…¨éƒ¨è¾“å…¥):\n";
 
     for (int i = 0; i < q; i++)
     {
@@ -27,9 +27,9 @@ void analysis_point_map()
         cout << endl;
     }
 
-    //Ã¿×éÊý¾Ý¾ùÖµ
+    //æ¯ç»„æ•°æ®å‡å€¼
     double avg_of_q[q];
-    //Ã¿×éÊý¾Ý¼«²î
+    //æ¯ç»„æ•°æ®æžå·®
     double sub_max_min[q];
     for (int i = 0; i < q; i++)
     {
@@ -39,9 +39,9 @@ void analysis_point_map()
         avg_of_q[i] = Avg(size[i], n, n);
     }
 
-    //¾ùÖµµÄ¾ùÖµ
+    //å‡å€¼çš„å‡å€¼
     double avg_of_avg = Avg(avg_of_q, q, q);
-    //¼«²î¾ùÖµ
+    //æžå·®å‡å€¼
     double sub_avg = Avg(sub_max_min, q, q);
 
     double A2 = 0;
@@ -73,25 +73,25 @@ void analysis_point_map()
     }
     }
 
-    //¾ùÖµÍ¼ÉÏÏÞ
+    //å‡å€¼å›¾ä¸Šé™
     double upper_of_total_avg_map = avg_of_avg + A2 * sub_avg;
-    //¾ùÖµÍ¼ÏÂÏÞ
+    //å‡å€¼å›¾ä¸‹é™
     double lower_of_total_avg_map = avg_of_avg - A2 * sub_avg;
-    //¼«²îÍ¼ÉÏÏÞ
+    //æžå·®å›¾ä¸Šé™
     double upper_of_sub_avg_map = sub_avg * (1 + 3 * d * an);
-    //¼«²îÍ¼ÏÂÏÞ
+    //æžå·®å›¾ä¸‹é™
     double lower_of_sub_avg_map = sub_avg * (1 - 3 * d * an);
     if (lower_of_sub_avg_map < 0)
         lower_of_sub_avg_map = 0;
 
-    cout << "¸÷×éÊý¾Ý¾ùÖµµÄ¾ùÖµ: " << avg_of_avg << endl
-         << "¼«²îÆ½¾ùÖµ: " << sub_avg << endl << endl
-         << "¾ùÖµÍ¼ÉÏ¿ØÖÆÏÞ: " << upper_of_total_avg_map << endl
-         << "¾ùÖµÍ¼ÏÂ¿ØÖÆÏÞ: " << lower_of_total_avg_map << endl << endl
-         << "¼«²îÍ¼ÉÏ¿ØÖÆÏÞ: " << upper_of_sub_avg_map << endl
-         << "¼«²îÍ¼ÏÂ¿ØÖÆÏÞ: " << lower_of_sub_avg_map << endl;
+    cout << "å„ç»„æ•°æ®å‡å€¼çš„å‡å€¼: " << avg_of_avg << endl
+         << "æžå·®å¹³å‡å€¼: " << sub_avg << endl << endl
+         << "å‡å€¼å›¾ä¸ŠæŽ§åˆ¶é™: " << upper_of_total_avg_map << endl
+         << "å‡å€¼å›¾ä¸‹æŽ§åˆ¶é™: " << lower_of_total_avg_map << endl << endl
+         << "æžå·®å›¾ä¸ŠæŽ§åˆ¶é™: " << upper_of_sub_avg_map << endl
+         << "æžå·®å›¾ä¸‹æŽ§åˆ¶é™: " << lower_of_sub_avg_map << endl;
 
-    cout << endl << "°´»Ø³µ¼ü½áÊø";
+    cout << endl << "æŒ‰å›žè½¦é”®ç»“æŸ";
     getchar();
 }
 

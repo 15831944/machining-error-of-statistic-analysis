@@ -7,18 +7,18 @@ using namespace std;
 
 void analysis_size_map()
 {
-    cout << "ÊäÈëÑù±¾Êı: ";
-    //Ñù±¾Êı
+    cout << "è¾“å…¥æ ·æœ¬æ•°: ";
+    //æ ·æœ¬æ•°
     int t = 0;
     cin >> t;
     const int n = t;
     int real_data_amount = n;
 
-    cout << "ÊäÈëÊı¾İÀàĞÍ(0:Æ«²î  1:Áã¼ş³ß´ç): ";
+    cout << "è¾“å…¥æ•°æ®ç±»å‹(0:åå·®  1:é›¶ä»¶å°ºå¯¸): ";
     int data_type = 0;
     cin >> data_type;
     double avg = 0;
-    //±ê×¼²î
+    //æ ‡å‡†å·®
     double standard_deviation = 0;
 
 
@@ -26,10 +26,10 @@ void analysis_size_map()
     double num[n];
     if (data_type == 0)
     {
-        cout << "ÊäÈë»ù±¾³ß´ç: ";
+        cout << "è¾“å…¥åŸºæœ¬å°ºå¯¸: ";
         double standard_size = 0;
         cin >> standard_size;
-        cout << endl << "ÊäÈëÊı¾İ:\n";
+        cout << endl << "è¾“å…¥æ•°æ®:\n";
         for (int i = 0; i < n; i++)
         {
             cin >> num[i];
@@ -39,7 +39,7 @@ void analysis_size_map()
     }
     else
     {
-        cout << endl << "ÊäÈëÊı¾İ:\n";
+        cout << endl << "è¾“å…¥æ•°æ®:\n";
         for (int i = 0; i < n; i++)
         {
             cin >> num[i];
@@ -49,7 +49,7 @@ void analysis_size_map()
 
 
 
-    //Ñ­»·×ã¹»´ÎÊıÅÅ³ıÒì³£Êı¾İ
+    //å¾ªç¯è¶³å¤Ÿæ¬¡æ•°æ’é™¤å¼‚å¸¸æ•°æ®
     for (int x = 0; x < 5; x++)
     {
         avg = Avg(num, n, real_data_amount);
@@ -66,33 +66,33 @@ void analysis_size_map()
         }
     }
     cout << endl
-         << "Æ½¾ùÖµ: " << avg << endl
-         << "±ê×¼²î: " << standard_deviation << endl << endl;
+         << "å¹³å‡å€¼: " << avg << endl
+         << "æ ‡å‡†å·®: " << standard_deviation << endl << endl;
 
 
 
 
 
-    //×éÊı
+    //ç»„æ•°
     int k = Groups_num(n);
     double max_num =Max_num(num, n);
     double min_num =Min_num(num, n);
-    //×éÖ®¼äµÄ¼ä¾à
+    //ç»„ä¹‹é—´çš„é—´è·
     double h = (max_num - min_num) / k;
 
-    //×é±ğ·Ö½çÖµ
+    //ç»„åˆ«åˆ†ç•Œå€¼
     double breakpoint[k-1];
     for (int i = 0; i < k-1; i++)
     {
         breakpoint[i] = min_num + (i + 1) * h;
     }
-    //¸÷×éÆµÊı
+    //å„ç»„é¢‘æ•°
     int frequency[k];
     for (int i = 0; i < k; i++)
         frequency[i] = 0;
 
 
-    //¼ÆËã¸÷×éÆµÊı
+    //è®¡ç®—å„ç»„é¢‘æ•°
     for(int i = 0; i < n; i++)
     {
         if(num[i] == -255)
@@ -109,7 +109,7 @@ void analysis_size_map()
         }
     }
 
-    //Êä³ö¸÷×éÆµÊı
+    //è¾“å‡ºå„ç»„é¢‘æ•°
     for (int i = 0; i < k; i++)
     {
         if (i == 0)
@@ -120,7 +120,7 @@ void analysis_size_map()
             cout << breakpoint[i-1] << "-" << breakpoint[i] << "\t" << (breakpoint[i-1] + breakpoint[i]) / 2 << "\t\t" << frequency[i] << endl;
     }
 
-    cout << endl << "°´»Ø³µ¼ü½áÊø";
+    cout << endl << "æŒ‰å›è½¦é”®ç»“æŸ";
     getchar();
 }
 
