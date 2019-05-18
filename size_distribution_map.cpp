@@ -1,7 +1,8 @@
 #include "size_distribution_map.h"
 #include <iostream>
 #include <cstdlib>
-#include <public_function.h>
+#include "public_function.h"
+#include <fstream>
 
 using namespace std;
 
@@ -120,8 +121,26 @@ void analysis_size_map()
             cout << breakpoint[i-1] << "-" << breakpoint[i] << "\t" << (breakpoint[i-1] + breakpoint[i]) / 2 << "\t\t" << frequency[i] << endl;
     }
 
-    cout << endl << "按回车键结束";
-    getchar();
+    ofstream fout;
+    fout.open("size_map.txt");
+    if (fout)
+    {
+        //各组边界
+        fout << min_num << " ";
+        for (int i = 0; i < k-1; i++)
+        {
+            fout << breakpoint[i] << " ";
+        }
+        fout << max_num << endl;
+
+        //y坐标
+        for (int i = 0; i < k; i++)
+            fout << frequency[i] << " ";
+
+        // 平均值
+        fout << endl << avg;
+    }
+    fout.close();
 }
 
 int Groups_num(int n)

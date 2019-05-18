@@ -1,6 +1,7 @@
 #include "point_map.h"
 #include <iostream>
 #include "public_function.h"
+#include <fstream>
 
 using namespace std;
 
@@ -84,14 +85,29 @@ void analysis_point_map()
     if (lower_of_sub_avg_map < 0)
         lower_of_sub_avg_map = 0;
 
-    cout << "各组数据均值的均值: " << avg_of_avg << endl
-         << "极差平均值: " << sub_avg << endl << endl
-         << "均值图上控制限: " << upper_of_total_avg_map << endl
-         << "均值图下控制限: " << lower_of_total_avg_map << endl << endl
-         << "极差图上控制限: " << upper_of_sub_avg_map << endl
-         << "极差图下控制限: " << lower_of_sub_avg_map << endl;
+    ofstream fout;
+    fout.open("point_map.txt");
+    if (fout)
+    {
+        //各组均值
+        for (int i = 0; i < q; i++)
+        {
+            fout << avg_of_q[i] << " ";
+        }
+        fout << endl;
 
-    cout << endl << "按回车键结束";
-    getchar();
+        //各组极差
+        for (int i = 0; i < q; i++)
+        {
+            fout << sub_max_min[i] << " ";
+        }
+        fout << endl;
+
+        //各组数据均值的均值            均值图上控制限                      均值图下控制限
+        fout << avg_of_avg << " " << upper_of_total_avg_map << " " << lower_of_total_avg_map << endl
+            //极差平均值            极差图上控制限                    极差图下控制限
+             << sub_avg << " " << upper_of_sub_avg_map << " " << lower_of_sub_avg_map << endl;
+    }
+    fout.close();
 }
 
