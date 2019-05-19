@@ -83,9 +83,9 @@ def draw_point_map(f):
 
     plt.savefig('point_map.png')
 
-if (os.path.isfile('size_map.txt')):
-    with open("size_map.txt") as f:
+if (os.path.isfile('size_map.dat')):
+    with open("size_map.dat") as f:
         draw_size_map(f)
-if (os.path.isfile('point_map.txt')):
-    with open("point_map.txt") as f:
+if (os.path.isfile('point_map.dat')):
+    with open("point_map.dat") as f:
         draw_point_map(f)

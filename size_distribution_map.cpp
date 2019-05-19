@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include "public_function.h"
 #include <fstream>
+#include <cmath>
 
 using namespace std;
 
@@ -21,6 +22,14 @@ void analysis_size_map()
     double avg = 0;
     //标准差
     double standard_deviation = 0;
+    //组数
+    int k = Groups_num(n);
+    //组别分界值
+    double breakpoint[k-1];
+    //各组频数
+    int frequency[k];
+    for (int i = 0; i < k; i++)
+        frequency[i] = 0;
 
 
 
@@ -30,7 +39,7 @@ void analysis_size_map()
         cout << "输入基本尺寸: ";
         double standard_size = 0;
         cin >> standard_size;
-        cout << endl << "输入数据:\n";
+        cout << endl << "输入数据,单位微米:\n";
         for (int i = 0; i < n; i++)
         {
             cin >> num[i];
@@ -40,91 +49,107 @@ void analysis_size_map()
     }
     else
     {
-        cout << endl << "输入数据:\n";
+        cout << endl << "输入数据,单位毫米:\n";
         for (int i = 0; i < n; i++)
         {
             cin >> num[i];
         }
     }
 
-
-
-
-    //循环足够次数排除异常数据
-    for (int x = 0; x < 5; x++)
+    ofstream data;
+    data.open("分布图具体数据.txt");
+    if (data)
     {
-        avg = Avg(num, n, real_data_amount);
-        standard_deviation = Standard_deviation(num, n, avg, real_data_amount);
-        for(int i = 0; i < n; ++i)
+        data.setf(ios::fixed, ios::floatfield);
+        data.precision(4);
+        data << "零件尺寸:\n";
+        for (int i = 0; i < n; i++)
         {
-            if (num[i] == -255)
-                continue;
-            if(abs(num[i] - avg) > 3*standard_deviation)
+            data << num[i] << " ";
+        }
+        data << endl << endl;
+
+        //循环足够次数排除异常数据
+        for (int x = 0; x < 5; x++)
+        {
+            data << "第" << x+1 << "次:\n";
+            avg = Avg(num, n, real_data_amount);
+            data << "平均值: " << avg << endl;
+            standard_deviation = Standard_deviation(num, n, avg, real_data_amount);
+            data << "标准差: " << standard_deviation << endl << "异常数据: ";
+            for(int i = 0; i < n; ++i)
             {
-                num[i] = -255;
-                real_data_amount--;
+                if (num[i] == -255)
+                    continue;
+                if(abs(num[i] - avg) > 3*standard_deviation)
+                {
+                    data << i << " " << num[i] << "\t";
+                    num[i] = -255;
+                    real_data_amount--;
+                }
+            }
+            data << endl << endl;
+        }
+
+        data << "最终平均值: " << avg << endl
+             << "最终标准差: " << standard_deviation << endl << endl;
+
+
+
+
+
+        double max_num =Max_num(num, n);
+        double min_num =Min_num(num, n);
+        //组之间的间距
+        double h = (max_num - min_num) / k;
+
+        for (int i = 0; i < k-1; i++)
+        {
+            breakpoint[i] = min_num + (i + 1) * h;
+        }
+
+
+        //计算各组频数
+        for(int i = 0; i < n; i++)
+        {
+            if(num[i] == -255)
+                continue;
+            for (int x = k-2; x >= 0; x--)
+            {
+                if (num[i] > breakpoint[x])
+                {
+                    frequency[x+1]++;
+                    break;
+                }
+                if (x == 0)
+                    frequency[0]++;
             }
         }
+
+        //输出各组频数
+        for (int i = 0; i < k; i++)
+        {
+            if (i == 0)
+                data << min_num << "-" << breakpoint[i] << "\t" << (breakpoint[i] + min_num) / 2 << "\t\t" << frequency[i] << endl;
+            else if (i == k-1)
+                data << breakpoint[i-1] << "-" << max_num << "\t" << (breakpoint[i-1] + max_num) / 2 << "\t\t" << frequency[i] << endl;
+            else
+                data << breakpoint[i-1] << "-" << breakpoint[i] << "\t" << (breakpoint[i-1] + breakpoint[i]) / 2 << "\t\t" << frequency[i] << endl;
+        }
     }
-    cout << endl
-         << "平均值: " << avg << endl
-         << "标准差: " << standard_deviation << endl << endl;
+    data.close();
 
 
 
 
-
-    //组数
-    int k = Groups_num(n);
     double max_num =Max_num(num, n);
     double min_num =Min_num(num, n);
-    //组之间的间距
-    double h = (max_num - min_num) / k;
-
-    //组别分界值
-    double breakpoint[k-1];
-    for (int i = 0; i < k-1; i++)
-    {
-        breakpoint[i] = min_num + (i + 1) * h;
-    }
-    //各组频数
-    int frequency[k];
-    for (int i = 0; i < k; i++)
-        frequency[i] = 0;
-
-
-    //计算各组频数
-    for(int i = 0; i < n; i++)
-    {
-        if(num[i] == -255)
-            continue;
-        for (int x = k-2; x >= 0; x--)
-        {
-            if (num[i] > breakpoint[x])
-            {
-                frequency[x+1]++;
-                break;
-            }
-            if (x == 0)
-                frequency[0]++;
-        }
-    }
-
-    //输出各组频数
-    for (int i = 0; i < k; i++)
-    {
-        if (i == 0)
-            cout << min_num << "-" << breakpoint[i] << "\t" << (breakpoint[i] + min_num) / 2 << "\t\t" << frequency[i] << endl;
-        else if (i == k-1)
-            cout << breakpoint[i-1] << "-" << max_num << "\t" << (breakpoint[i-1] + max_num) / 2 << "\t\t" << frequency[i] << endl;
-        else
-            cout << breakpoint[i-1] << "-" << breakpoint[i] << "\t" << (breakpoint[i-1] + breakpoint[i]) / 2 << "\t\t" << frequency[i] << endl;
-    }
-
     ofstream fout;
-    fout.open("size_map.txt");
+    fout.open("size_map.dat");
     if (fout)
     {
+        fout.setf(ios::fixed, ios::floatfield);
+        fout.precision(4);
         //各组边界
         fout << min_num << " ";
         for (int i = 0; i < k-1; i++)

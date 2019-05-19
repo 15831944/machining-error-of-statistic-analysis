@@ -15,17 +15,39 @@ void analysis_point_map()
     int n = 0;
     cin >> n;
 
+    cout << "输入数据类型(0:偏差  1:零件尺寸): ";
+    int data_type = 0;
+    cin >> data_type;
+
     double size[q][n];
-
-    cout << endl << "输入数据(一次性全部输入):\n";
-
-    for (int i = 0; i < q; i++)
+    if (data_type == 1)
     {
-        for (int j = 0; j < n; j++)
+        cout << endl << "输入数据(一次性全部输入,单位毫米):\n";
+        for (int i = 0; i < q; i++)
         {
-            cin >> size[i][j];
+            for (int j = 0; j < n; j++)
+            {
+                cin >> size[i][j];
+            }
+            cout << endl;
         }
-        cout << endl;
+    }
+    else
+    {
+        cout << "输入基本尺寸: ";
+        double standard_size = 0;
+        cin >> standard_size;
+        cout << endl << "输入数据(一次性全部输入,单位微米):\n";
+        for (int i = 0; i < q; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                cin >> size[i][j];
+                size[i][j] /= 1000;
+                size[i][j] += standard_size;
+            }
+            cout << endl;
+        }
     }
 
     //每组数据均值
@@ -82,13 +104,39 @@ void analysis_point_map()
     double upper_of_sub_avg_map = sub_avg * (1 + 3 * d * an);
     //极差图下限
     double lower_of_sub_avg_map = sub_avg * (1 - 3 * d * an);
+
+    ofstream data;
+    data.open("x-r图具体数据.txt");
+    if (data)
+    {
+        data.setf(ios::fixed, ios::floatfield);
+        data.precision(4);
+        data << "各组平均值及极差:\n";
+        for (int i = 0; i < q; i++)
+        {
+            data << "第" << i << "组: " << avg_of_q[i] << "\t" << sub_max_min[i] << endl;
+        }
+        data << endl;
+
+        data << "各系数取值:\n" << "d: " << d << "\tan: " << an << "\tA2: " << A2 << endl << endl;
+
+        data << "各组均值的均值: " << avg_of_avg << endl;
+        data << "极差均值: " << sub_avg << endl << endl;
+
+        data << "x图上控制限: " << upper_of_total_avg_map << endl
+             << "x图下控制限: " << lower_of_total_avg_map << endl << endl;
+        data << "R图上控制限: " << upper_of_sub_avg_map << endl
+             << "R图下控制限: " << lower_of_sub_avg_map << endl;
+    }
+
     if (lower_of_sub_avg_map < 0)
         lower_of_sub_avg_map = 0;
-
     ofstream fout;
-    fout.open("point_map.txt");
+    fout.open("point_map.dat");
     if (fout)
     {
+        fout.setf(ios::fixed, ios::floatfield);
+        fout.precision(4);
         //各组均值
         for (int i = 0; i < q; i++)
         {
